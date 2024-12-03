@@ -7,31 +7,21 @@ const part1 = (rawInput) => {
   let ins = input.match(/mul\(\d{1,3},\d{1,3}\)/g);
   let total = 0;
   for (let mul of ins) {
-    let nums = mul
-      .split(",")
-      .map((e) => e.replace(/[^\d]/g, ""))
-      .map(Number)
-      .reduce((a, e) => a * e);
-    total += nums;
+    total += mul.match(/\d+/g).reduce((a, e) => a * e);
   }
   return total;
 };
 
 const part2 = (rawInput) => {
   const input = parseInput(rawInput);
-  let ins = input.match(/mul\(\d{1,3},\d{1,3}\)|do\(\)|don\'t\(\)/g);
+  let ins = input.match(/mul\(\d{1,3},\d{1,3}\)|do\(\)|don't\(\)/g);
   let total = 0;
   let calc = true;
   for (let mul of ins) {
     if (mul === "do()") calc = true;
     else if (mul === "don't()") calc = false;
     else if (calc) {
-      let nums = mul
-        .split(",")
-        .map((e) => e.replace(/[^\d]/g, ""))
-        .map(Number)
-        .reduce((a, e) => a * e);
-      total += nums;
+      total += mul.match(/\d+/g).reduce((a, e) => a * e);
     }
   }
   return total;
