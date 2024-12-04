@@ -21,15 +21,14 @@ const xDirs = {
 };
 
 const getCorner = (x, y, key) => {
-  return [x + xDirs[key].x, y + xDirs[key].y];
+  return key in xDirs ? [x + xDirs[key].x, y + xDirs[key].y] : [-1, -1];
 };
 
-const checkMas = (x, y, matrix) => {
-  // const [ulX, ulY] = [x + xDirs.ul.x, y + xDirs.ul.y];
-  // const [llX, llY] = [x + xDirs.ll.x, y + xDirs.ll.y];
-  // const [urX, urY] = [x + xDirs.ur.x, y + xDirs.ur.y];
-  // const [lrX, lrY] = [x + xDirs.lr.x, y + xDirs.lr.y];
+const checkCorners = (x1, y1, x2, y2, matrix) =>
+  (matrix[y1][x1] === "M" && matrix[y2][x2] === "S") ||
+  (matrix[y1][x1] === "S" && matrix[y2][x2] === "M");
 
+const checkMas = (x, y, matrix) => {
   const [ulX, ulY] = getCorner(x, y, "ul");
   const [llX, llY] = getCorner(x, y, "ll");
   const [urX, urY] = getCorner(x, y, "ur");
@@ -44,10 +43,10 @@ const checkMas = (x, y, matrix) => {
   if (!bounds(lrX, lrY, xLen, yLen)) return false;
 
   return (
-    ((matrix[ulY][ulX] === "M" && matrix[lrY][lrX] === "S") ||
-      (matrix[ulY][ulX] === "S" && matrix[lrY][lrX] === "M")) &&
-    ((matrix[urY][urX] === "M" && matrix[llY][llX] === "S") ||
-      (matrix[urY][urX] === "S" && matrix[llY][llX] === "M"))
+    // Upper left / lower right
+    checkCorners(ulX, ulY, lrX, lrY, matrix) &&
+    // Upper right / lower left
+    checkCorners(urX, urY, llX, llY, matrix)
   );
 };
 
