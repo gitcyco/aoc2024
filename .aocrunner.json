@@ -70,13 +70,13 @@
         "attempts": [
           "3005"
         ],
-        "time": 2.27768
+        "time": 1.919939
       },
       "part2": {
         "solved": true,
         "result": "6732",
         "attempts": [],
-        "time": 1.529425
+        "time": 1.323519
       }
     },
     {
